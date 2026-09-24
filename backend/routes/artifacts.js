@@ -8,6 +8,7 @@ const {
   deleteArtifact,
   addArtifactImage,
   getTags,
+  updatePreservationStatus,
 } = require('../controllers/artifactsController');
 const { protect } = require('../middleware/auth');
 const { canEdit, isLeadOrAdmin } = require('../middleware/role');
@@ -21,6 +22,7 @@ router.get('/:id', getArtifact);
 // Protected write routes
 router.post('/', protect, canEdit, createArtifact);
 router.put('/:id', protect, canEdit, updateArtifact);
+router.patch('/:id/preservation-status', protect, canEdit, updatePreservationStatus);
 router.delete('/:id', protect, isLeadOrAdmin, deleteArtifact);
 router.post('/:id/images', protect, canEdit, upload.single('image'), addArtifactImage);
 

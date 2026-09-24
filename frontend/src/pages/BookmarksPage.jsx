@@ -11,7 +11,7 @@ export default function BookmarksPage() {
     queryKey: ['bookmarks'],
     queryFn: () => bookmarksAPI.getAll().then((r) => r.data.bookmarks),
   });
-
+//f
   const handleRemove = async (itemId) => {
     try {
       await bookmarksAPI.remove(itemId);
