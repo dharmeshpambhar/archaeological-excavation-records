@@ -4,6 +4,7 @@ import {
   ArrowRight, CheckCircle2, Shield, MapPin, Search, LayoutDashboard
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import BrandLogo from '../components/common/BrandLogo';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -50,15 +51,11 @@ export default function LandingPage() {
         }}
       >
         {/* Brand */}
-        <div
+        <BrandLogo
+          size="lg"
           onClick={() => navigate('/')}
-          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
-        >
-          <Landmark size={24} color="#31543D" strokeWidth={2.2} />
-          <span style={{ fontSize: 21, fontWeight: 700, color: '#1A1D20', letterSpacing: '-0.02em' }}>
-            ArchaeoTrack
-          </span>
-        </div>
+          style={{ cursor: 'pointer' }}
+        />
 
         {/* Navigation Links */}
         <nav style={{ display: 'flex', alignItems: 'center', gap: 32 }} className="landing-nav-links">
@@ -394,7 +391,7 @@ export default function LandingPage() {
       >
         <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#31543D', marginBottom: 12 }}>
-            About ArchaeoTrack
+            About Archeological System
           </div>
           <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.6rem)', fontWeight: 700, color: '#1A1D20', marginBottom: 16 }}>
             Designed for Field Archaeologists &amp; Research Institutions
@@ -467,9 +464,12 @@ export default function LandingPage() {
           }}
         >
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#FFFFFF', marginBottom: 12 }}>
-              <Landmark size={22} color="#4E8C64" strokeWidth={2.2} />
-              <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em' }}>ArchaeoTrack</span>
+            <div style={{ marginBottom: 12 }}>
+              <BrandLogo
+                size="md"
+                theme="dark"
+                subtitleText="EXCAVATION &amp; FIELD ARCHIVE"
+              />
             </div>
             <p style={{ fontSize: 13, maxWidth: 360, lineHeight: 1.6, color: '#8A949E' }}>
               Institutional platform for archaeological excavations, material culture registries, and stratigraphic field journals.
@@ -498,7 +498,7 @@ export default function LandingPage() {
         </div>
 
         <div style={{ maxWidth: 1360, margin: '24px auto 0', fontSize: 12, color: '#68727B', textAlign: 'center' }}>
-          &copy; {new Date().getFullYear()} ArchaeoTrack. Archaeological Research &amp; Field Records.
+          &copy; {new Date().getFullYear()} Archeological System. Archaeological Research &amp; Field Records.
         </div>
       </footer>
 

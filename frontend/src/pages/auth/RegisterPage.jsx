@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Landmark, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import BrandLogo from '../../components/common/BrandLogo';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await register(formData.name, formData.email, formData.password, 'Viewer');
-      toast.success('Registration successful! Welcome to ArchaeoTrack.');
+      toast.success('Registration successful! Welcome to Archeological System.');
       navigate('/dashboard');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
@@ -68,14 +69,12 @@ export default function RegisterPage() {
         }}
       >
         {/* Logo */}
-        <div
-          onClick={() => navigate('/')}
-          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 36 }}
-        >
-          <Landmark size={26} color="#31543D" strokeWidth={2.2} />
-          <span style={{ fontSize: 22, fontWeight: 700, color: '#1A1D20', letterSpacing: '-0.02em' }}>
-            ArchaeoTrack
-          </span>
+        <div style={{ marginBottom: 32 }}>
+          <BrandLogo
+            size="xl"
+            onClick={() => navigate('/')}
+            style={{ cursor: 'pointer' }}
+          />
         </div>
 
         <h1 style={{ fontSize: 26, fontWeight: 700, color: '#1A1D20', marginBottom: 6 }}>

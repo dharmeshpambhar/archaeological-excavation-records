@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Lock, Eye, EyeOff, CheckCircle, Shovel } from 'lucide-react';
 import { authAPI } from '../../services/api';
 import toast from 'react-hot-toast';
+import BrandLogo from '../../components/common/BrandLogo';
 
 export default function ResetPasswordPage() {
   const { token } = useParams();
@@ -44,14 +45,14 @@ export default function ResetPasswordPage() {
         }}
       >
         <div style={{ background: 'var(--bg-surface-subtle)', borderBottom: '1px solid var(--border-color)', padding: '24px 32px', textAlign: 'center' }}>
-          <div style={{ width: 40, height: 40, background: 'var(--color-primary)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-            <Shovel size={20} color="#FFFFFF" />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
+            <BrandLogo size="md" subtitleText="CREDENTIAL SECURITY" />
           </div>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 22, color: 'var(--text-primary)', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 20, color: 'var(--text-primary)', fontWeight: 700 }}>
             Set New Password
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>
-            Archaeological Excavation Records
+          <p style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 4 }}>
+            Enter your new secure password below
           </p>
         </div>
 

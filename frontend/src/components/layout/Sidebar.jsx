@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import BrandLogo from '../common/BrandLogo';
 
 const baseNavItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
@@ -47,35 +48,18 @@ export default function Sidebar({ isOpen, onClose }) {
       {/* Brand Header */}
       <div
         style={{
-          padding: '24px 20px 20px',
+          padding: '20px 18px 18px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          borderBottom: '1px solid #ECE8E1',
         }}
       >
-        <div
+        <BrandLogo
+          size="md"
           onClick={() => navigate('/')}
-          title="Go to Landing Page"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            cursor: 'pointer',
-            textDecoration: 'none',
-          }}
-        >
-          <Landmark size={22} color="#31543D" strokeWidth={2.2} />
-          <span
-            style={{
-              fontSize: 19,
-              fontWeight: 700,
-              color: '#1A1D20',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            ArchaeoTrack
-          </span>
-        </div>
+          style={{ cursor: 'pointer' }}
+        />
 
         {/* Mobile close button */}
         <button

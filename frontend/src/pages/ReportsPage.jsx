@@ -950,7 +950,7 @@ export default function ReportsPage() {
           justifyContent: 'space-between',
         }}
       >
-        <div>ArchaeoTrack Formal Research Dossier &copy; {new Date().getFullYear()} Archaeological Survey of India</div>
+        <div>Archeological System Formal Research Dossier &copy; {new Date().getFullYear()} Archaeological Survey of India</div>
         <div>Authorized by Director General of Excavations</div>
       </div>
 

@@ -195,7 +195,7 @@ export default function SettingsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `archaeotrack_settings_${activeRoleView.toLowerCase().replace(/\s+/g, '_')}.json`;
+    a.download = `archeological_system_settings_${activeRoleView.toLowerCase().replace(/\s+/g, '_')}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success('Settings file downloaded');

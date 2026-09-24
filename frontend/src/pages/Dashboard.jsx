@@ -83,7 +83,7 @@ export default function Dashboard() {
     return (
       <div className="loading-page">
         <div className="spinner" />
-        <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Loading ArchaeoTrack records...</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Loading Archeological System records...</p>
       </div>
     );
   }

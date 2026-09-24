@@ -1,4 +1,4 @@
-# ArchaeoTrack - System Accounts & Credentials Reference
+# Archeological System - System Accounts & Credentials Reference
 
 This document contains all predefined user accounts configured in the system. Use these credentials to sign in directly from the login page (`/login`).
 

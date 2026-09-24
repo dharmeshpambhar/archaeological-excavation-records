@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Landmark, Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import BrandLogo from '../../components/common/BrandLogo';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(email, password);
-      toast.success('Welcome back to ArchaeoTrack');
+      toast.success('Welcome back to Archeological System');
       navigate('/dashboard');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Invalid credentials');
@@ -56,14 +57,12 @@ export default function LoginPage() {
         }}
       >
         {/* Logo */}
-        <div
-          onClick={() => navigate('/')}
-          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 40 }}
-        >
-          <Landmark size={26} color="#31543D" strokeWidth={2.2} />
-          <span style={{ fontSize: 22, fontWeight: 700, color: '#1A1D20', letterSpacing: '-0.02em' }}>
-            ArchaeoTrack
-          </span>
+        <div style={{ marginBottom: 36 }}>
+          <BrandLogo
+            size="xl"
+            onClick={() => navigate('/')}
+            style={{ cursor: 'pointer' }}
+          />
         </div>
 
         <h1 style={{ fontSize: 26, fontWeight: 700, color: '#1A1D20', marginBottom: 8 }}>
@@ -192,7 +191,7 @@ export default function LoginPage() {
 
           {/* Footer Switch Link */}
           <div style={{ textAlign: 'center', fontSize: 13, color: '#6A746E', marginTop: 8 }}>
-            New to ArchaeoTrack?{' '}
+            New to Archeological System?{' '}
             <Link to="/register" style={{ color: '#31543D', fontWeight: 600, textDecoration: 'none' }}>
               Create an account
             </Link>
