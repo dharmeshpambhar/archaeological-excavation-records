@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { ChevronRight, Edit, Trash2, MapPin } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { ChevronRight, Edit, Trash2, MapPin, ShieldCheck } from 'lucide-react';
 import { artifactsAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -17,12 +17,22 @@ const defaultArtifactGallery = [
 export default function ArtifactDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { canEdit, canDeleteArtifact } = useAuth();
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   const { data: artifact, isLoading } = useQuery({
     queryKey: ['artifact', id],
     queryFn: () => artifactsAPI.getOne(id).then((r) => r.data.artifact),
+  });
+
+  const statusMutation = useMutation({
+    mutationFn: (newStatus) => artifactsAPI.updatePreservationStatus(id, newStatus),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artifact', id] });
+      toast.success('Preservation status updated');
+    },
+    onError: (err) => toast.error(err.response?.data?.message || 'Failed to update preservation status'),
   });
 
   const deleteMutation = useMutation({
@@ -235,6 +245,42 @@ export default function ArtifactDetailPage() {
               <span style={{ color: '#7A8680' }}>Condition</span>
               <span style={{ fontWeight: 600, color: '#1A1D20' }}>{artifact.condition || 'Fair'}</span>
             </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #F5F3EE', paddingBottom: 10 }}>
+              <span style={{ color: '#7A8680' }}>Preservation Status</span>
+              {canEdit ? (
+                <select
+                  value={artifact.preservationStatus || 'Stable'}
+                  onChange={(e) => statusMutation.mutate(e.target.value)}
+                  disabled={statusMutation.isPending}
+                  style={{
+                    padding: '4px 8px',
+                    borderRadius: 4,
+                    border: '1px solid #D8D4CC',
+                    fontSize: 12.5,
+                    fontWeight: 600,
+                    background: '#FAFAFA',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <option value="Stable">Stable</option>
+                  <option value="Requires Treatment">Requires Treatment</option>
+                  <option value="Under Restoration">Under Restoration</option>
+                  <option value="Critical">Critical</option>
+                </select>
+              ) : (
+                <span style={{ fontWeight: 600, color: '#1A1D20' }}>
+                  {artifact.preservationStatus || 'Stable'}
+                </span>
+              )}
+            </div>
+
+            {artifact.culturalAffiliation && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #F5F3EE', paddingBottom: 10 }}>
+                <span style={{ color: '#7A8680' }}>Cultural Affiliation</span>
+                <span style={{ fontWeight: 600, color: '#1A1D20' }}>{artifact.culturalAffiliation}</span>
+              </div>
+            )}
 
             <div>
               <span style={{ color: '#7A8680', display: 'block', marginBottom: 4 }}>Description</span>
