@@ -68,11 +68,6 @@ const artifactSchema = new mongoose.Schema(
       enum: ['Excellent', 'Good', 'Fair', 'Poor', 'Fragmentary'],
       default: 'Good',
     },
-    preservationStatus: {
-      type: String,
-      enum: ['Stable', 'Requires Treatment', 'Under Restoration', 'Critical'],
-      default: 'Stable',
-    },
     culturalAffiliation: {
       type: String,
       trim: true,

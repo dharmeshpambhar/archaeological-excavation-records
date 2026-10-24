@@ -13,45 +13,63 @@ const getArtifacts = asyncHandler(async (req, res) => {
     era,
     material,
     condition,
-    preservationStatus,
     search,
-    page = 1,
-    limit = 12,
     sortBy = "createdAt",
     order = "desc",
     tags,
   } = req.query;
+
+  // Defaults
+  const DEFAULT_PAGE = 1;
+  const DEFAULT_LIMIT = 12;
+
+  // Validate query params: page >= 1 and limit between 1 and 50 (fallback to defaults if invalid)
+  let page = parseInt(req.query.page, 10);
+  if (isNaN(page) || page < 1) {
+    page = DEFAULT_PAGE;
+  }
+
+  let limit = parseInt(req.query.limit, 10);
+  if (isNaN(limit) || limit < 1 || limit > 50) {
+    limit = DEFAULT_LIMIT;
+  }
 
   const filter = {};
   if (site) filter.site = site;
   if (category) filter.category = category;
   if (era) filter.era = era;
   if (condition) filter.condition = condition;
-  if (preservationStatus) filter.preservationStatus = preservationStatus;
   if (material) filter.material = { $regex: material, $options: "i" };
   if (tags) filter.tags = { $in: tags.split(",") };
   if (search) filter.$text = { $search: search };
 
+  // Calculate skip offset for pagination
   const skip = (page - 1) * limit;
   const sort = { [sortBy]: order === "asc" ? 1 : -1 };
 
+  // Query MongoDB with skip() and limit()
   const [artifacts, total] = await Promise.all([
     Artifact.find(filter)
       .sort(sort)
       .skip(skip)
-      .limit(Number(limit))
+      .limit(limit)
       .populate("site", "name siteCode")
       .populate("discoveredBy", "name avatar")
       .populate("createdBy", "name avatar"),
     Artifact.countDocuments(filter),
   ]);
 
+  const totalPages = Math.ceil(total / limit) || 1;
+  const totalRecords = total;
+
   res.json({
     success: true,
     count: artifacts.length,
+    totalRecords,
+    totalPages,
     total,
-    page: Number(page),
-    pages: Math.ceil(total / limit),
+    page,
+    pages: totalPages,
     artifacts,
   });
 });
@@ -198,41 +216,6 @@ const getTags = asyncHandler(async (req, res) => {
   res.json({ success: true, tags });
 });
 
-// @desc    Update artifact preservation status
-// @route   PATCH /api/artifacts/:id/preservation-status
-// @access  Private
-const updatePreservationStatus = asyncHandler(async (req, res) => {
-  const { preservationStatus } = req.body;
-  const validStatuses = [
-    "Stable",
-    "Requires Treatment",
-    "Under Restoration",
-    "Critical",
-  ];
-
-  if (!preservationStatus || !validStatuses.includes(preservationStatus)) {
-    res.status(400);
-    throw new Error(
-      `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
-    );
-  }
-
-  const artifact = await Artifact.findByIdAndUpdate(
-    req.params.id,
-    { preservationStatus },
-    { new: true, runValidators: true },
-  )
-    .populate("site", "name siteCode")
-    .populate("createdBy", "name avatar");
-
-  if (!artifact) {
-    res.status(404);
-    throw new Error("Artifact not found");
-  }
-
-  res.json({ success: true, artifact });
-});
-
 module.exports = {
   getArtifacts,
   getArtifact,
@@ -241,5 +224,4 @@ module.exports = {
   deleteArtifact,
   addArtifactImage,
   getTags,
-  updatePreservationStatus,
 };

@@ -78,8 +78,6 @@ export const artifactsAPI = {
       headers: { "Content-Type": "multipart/form-data" },
     }),
   getTags: () => API.get("/artifacts/tags"),
-  updatePreservationStatus: (id, preservationStatus) =>
-    API.patch(`/artifacts/${id}/preservation-status`, { preservationStatus }),
 };
 
 // ─── Logs ────────────────────────────────────────────────────

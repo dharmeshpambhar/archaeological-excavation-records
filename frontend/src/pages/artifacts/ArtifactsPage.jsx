@@ -47,7 +47,8 @@ export default function ArtifactsPage() {
   };
 
   const artifacts = data?.artifacts || [];
-  const totalPages = data?.pages || 1;
+  const totalPages = data?.totalPages || data?.pages || 1;
+  const totalRecords = data?.totalRecords || data?.total || 0;
 
   return (
     <div style={{ padding: '28px 32px', maxWidth: 1440, margin: '0 auto', fontFamily: 'var(--font-sans)' }}>
@@ -268,38 +269,44 @@ export default function ArtifactsPage() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '14px 16px', borderTop: '1px solid #EFECE6' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, padding: '14px 16px', borderTop: '1px solid #EFECE6', flexWrap: 'wrap' }}>
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              style={{ padding: '4px 10px', background: 'none', border: '1px solid #D8D4CC', borderRadius: 4, cursor: page === 1 ? 'not-allowed' : 'pointer' }}
+              disabled={page <= 1}
+              style={{
+                padding: '6px 14px',
+                background: page <= 1 ? '#F4F2EE' : '#FFFFFF',
+                border: '1px solid #D8D4CC',
+                borderRadius: 4,
+                cursor: page <= 1 ? 'not-allowed' : 'pointer',
+                color: page <= 1 ? '#A0A8A4' : '#1A1D20',
+                fontWeight: 600,
+                fontSize: 13,
+              }}
             >
-              &lt;
+              Previous
             </button>
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i + 1)}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 4,
-                  border: page === i + 1 ? '1px solid #31543D' : '1px solid #D8D4CC',
-                  background: page === i + 1 ? '#31543D' : '#FFFFFF',
-                  color: page === i + 1 ? '#FFFFFF' : '#1A1D20',
-                  fontWeight: 600,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                {i + 1}
-              </button>
-            ))}
+
+            {/* Display totalPages and TotalRecords */}
+            <span style={{ fontSize: 13, color: '#556059', fontWeight: 500 }}>
+              Page <strong>{page}</strong> of <strong>{totalPages}</strong> | Total Records: <strong>{totalRecords}</strong>
+            </span>
+
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              style={{ padding: '4px 10px', background: 'none', border: '1px solid #D8D4CC', borderRadius: 4, cursor: page === totalPages ? 'not-allowed' : 'pointer' }}
+              disabled={page >= totalPages}
+              style={{
+                padding: '6px 14px',
+                background: page >= totalPages ? '#F4F2EE' : '#FFFFFF',
+                border: '1px solid #D8D4CC',
+                borderRadius: 4,
+                cursor: page >= totalPages ? 'not-allowed' : 'pointer',
+                color: page >= totalPages ? '#A0A8A4' : '#1A1D20',
+                fontWeight: 600,
+                fontSize: 13,
+              }}
             >
-              &gt;
+              Next
             </button>
           </div>
         )}

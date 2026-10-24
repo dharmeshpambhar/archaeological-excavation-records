@@ -26,14 +26,6 @@ export default function ArtifactDetailPage() {
     queryFn: () => artifactsAPI.getOne(id).then((r) => r.data.artifact),
   });
 
-  const statusMutation = useMutation({
-    mutationFn: (newStatus) => artifactsAPI.updatePreservationStatus(id, newStatus),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['artifact', id] });
-      toast.success('Preservation status updated');
-    },
-    onError: (err) => toast.error(err.response?.data?.message || 'Failed to update preservation status'),
-  });
 
   const deleteMutation = useMutation({
     mutationFn: () => artifactsAPI.delete(id),
@@ -246,34 +238,6 @@ export default function ArtifactDetailPage() {
               <span style={{ fontWeight: 600, color: '#1A1D20' }}>{artifact.condition || 'Fair'}</span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #F5F3EE', paddingBottom: 10 }}>
-              <span style={{ color: '#7A8680' }}>Preservation Status</span>
-              {canEdit ? (
-                <select
-                  value={artifact.preservationStatus || 'Stable'}
-                  onChange={(e) => statusMutation.mutate(e.target.value)}
-                  disabled={statusMutation.isPending}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: 4,
-                    border: '1px solid #D8D4CC',
-                    fontSize: 12.5,
-                    fontWeight: 600,
-                    background: '#FAFAFA',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <option value="Stable">Stable</option>
-                  <option value="Requires Treatment">Requires Treatment</option>
-                  <option value="Under Restoration">Under Restoration</option>
-                  <option value="Critical">Critical</option>
-                </select>
-              ) : (
-                <span style={{ fontWeight: 600, color: '#1A1D20' }}>
-                  {artifact.preservationStatus || 'Stable'}
-                </span>
-              )}
-            </div>
 
             {artifact.culturalAffiliation && (
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #F5F3EE', paddingBottom: 10 }}>

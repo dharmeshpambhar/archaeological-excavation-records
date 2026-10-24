@@ -101,3 +101,13 @@ export default function BookmarksPage() {
     </div>
   );
 }
+
+
+/*it is my university practical paper so we need to first put screenshot of before code then put screenshot of modified code so dont change directly first said me this is before code
+Questions :
+A. add Next/Previous buttons and a page indicator to the list page in react.
+B. Modify the list API to accept ?page= and ?limit= using skip() and limit().
+C. Return and display totalPages and TotalRecords; disable previous on page 1 and Next on the ;ast page.
+D. validate the query params (page>=1, limit between 1 and 50) and fall back to defaults if invalid.
+E. Demonstrate pagination working on the deployed application.
+*/
